@@ -11,15 +11,15 @@ TrackHeight_A = 116
 -- Set same track color. If several tracks selected the first selected track color is copied.
 SetSameTrColor = true
 
--- Set track recording state if selected track is used as a midi instrument (midi input needs to be enable).
--- true = Record: disable (input monitoring only).
--- false = Record: input(audio or MIDI).
-InputMonNoRec = true
-
 ------------------------------------------------------- END OF USER CONFIG AREA
 
 local defsendvol = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendvol', '0',  reaper.get_ini_file() )})[2]
 local defsendflag = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendflag', '0',  reaper.get_ini_file() )})[2]
+
+function Print(param)
+  reaper.ClearConsole()
+  reaper.ShowConsoleMsg(tostring(param).."\n")
+end
 
 function Main()
   TrackSum = reaper.CountSelectedTracks(0)
@@ -108,15 +108,14 @@ function SetOriginTrackRecState(originTrack)
     end
   end
 
-  if MidiInputIsEnabled and InputMonNoRec == true then
+  if MidiInputIsEnabled then
     reaper.Main_OnCommand(40491, 0)
-    reaper.SetMediaTrackInfo_Value(originTrack, "I_RECARM", 1)
-    reaper.SetMediaTrackInfo_Value(originTrack, "I_RECMODE", 2)
-  else if MidiInputIsEnabled then
-      Msg("set false state")
-    else
-      reaper.Main_OnCommand(40491, 0)
-    end
+    reaper.SetMediaTrackInfo_Value(originTrack, "I_RECARM", 0)
+    reaper.SetMediaTrackInfo_Value(originTrack, "I_RECMODE", 0)
+  else
+    reaper.Main_OnCommand(40491, 0)
+    reaper.SetMediaTrackInfo_Value(originTrack, "I_RECARM", 0)
+    reaper.SetMediaTrackInfo_Value(originTrack, "I_RECMODE", 0)
   end
 end
 
