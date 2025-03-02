@@ -15,11 +15,11 @@ track_height_b = 493
 setMasterTrack = true
 
 ------------------------------------------------------- END OF USER CONFIG AREA
+visibleTrackTable = {}
+visibleTrackIDTable = {}
 
 function CountVisibleTracks()
     local trackSum = reaper.CountTracks(0)
-    visibleTrackTable = {}
-    visibleTrackIDTable = {}
 
     if (setMasterTrack == true) then
         local masterTrackVisible = reaper.GetMasterTrackVisibility()

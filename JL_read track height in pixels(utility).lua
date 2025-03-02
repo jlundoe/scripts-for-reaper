@@ -3,8 +3,6 @@
 -- If several tracks is selected it displays an error message and do not get called.
 
 -------------------------------------------------------------------------------
-local TrackSum
-
 function Print(param)
     reaper.ClearConsole()
     reaper.ShowConsoleMsg(tostring(param).."\n")

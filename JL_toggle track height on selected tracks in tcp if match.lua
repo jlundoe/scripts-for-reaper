@@ -15,15 +15,14 @@ track_height_b = 493
 setMasterTrack = true
 
 ------------------------------------------------------- END OF USER CONFIG AREA
+trackHeightTable = {}
+trackNumberTable = {}
 
 function CountSelTracks()
     TrackSum = reaper.CountSelectedTracks2(0, setMasterTrack)
 end
 
 function GetTrackHeight()
-    trackHeightTable = {}
-    trackNumberTable = {}
-    
     for i = 1, TrackSum do
         trackNumber = reaper.GetSelectedTrack2(0, i - 1, setMasterTrack)
         trackHeight = reaper.GetMediaTrackInfo_Value(trackNumber, "I_TCPH")
