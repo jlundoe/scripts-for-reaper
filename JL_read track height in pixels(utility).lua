@@ -3,6 +3,7 @@
 -- If several tracks is selected it displays an error message and do not get called.
 
 -------------------------------------------------------------------------------
+local TrackSum
 
 function Print(param)
     reaper.ClearConsole()
@@ -17,8 +18,8 @@ function GetTrackHeight()
     if (TrackSum > 1) then
         Print("Error. More than one track selected. Select one track you wish to read the height of.")
     elseif (TrackSum == 1) then
-        trackNumber = reaper.GetSelectedTrack2(0, 0, true)
-        trackHeight = reaper.GetMediaTrackInfo_Value(trackNumber, "I_TCPH")
+        local trackNumber = reaper.GetSelectedTrack2(0, 0, true)
+        local trackHeight = reaper.GetMediaTrackInfo_Value(trackNumber, "I_TCPH")
         Print("Track height in pixels: "..trackHeight)
     end
 end
