@@ -13,7 +13,7 @@ SetSameTrColor = true
 
 ------------------------------------------------------- END OF USER CONFIG AREA
 
-local defsendvol = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendvol', '0',  reaper.get_ini_file() )})[2]
+local defsendvol = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendvol', '1',  reaper.get_ini_file() )})[2]
 local defsendflag = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendflag', '0',  reaper.get_ini_file() )})[2]
 
 function Print(param)
