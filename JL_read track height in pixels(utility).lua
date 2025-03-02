@@ -10,14 +10,14 @@ function Print(param)
 end
 
 function CountSelTracks()
-    trackSum = reaper.CountSelectedTracks(0)
+    TrackSum = reaper.CountSelectedTracks2(0, true)
 end
 
 function GetTrackHeight()
-    if (trackSum > 1) then
+    if (TrackSum > 1) then
         Print("Error. More than one track selected. Select one track you wish to read the height of.")
-    elseif (trackSum == 1) then
-        trackNumber = reaper.GetSelectedTrack(0, 0)
+    elseif (TrackSum == 1) then
+        trackNumber = reaper.GetSelectedTrack2(0, 0, true)
         trackHeight = reaper.GetMediaTrackInfo_Value(trackNumber, "I_TCPH")
         Print("Track height in pixels: "..trackHeight)
     end
