@@ -11,10 +11,13 @@ track_height_a = 102
 -- Set Track Height B in pixels
 track_height_b = 493
 
+-- If set to true script affect master track (if selected) as well
+setMasterTrack = true
+
 ------------------------------------------------------- END OF USER CONFIG AREA
 
 function CountSelTracks()
-    TrackSum = reaper.CountSelectedTracks2(0, true)
+    TrackSum = reaper.CountSelectedTracks2(0, setMasterTrack)
 end
 
 function GetTrackHeight()
@@ -22,7 +25,7 @@ function GetTrackHeight()
     trackNumberTable = {}
     
     for i = 1, TrackSum do
-        trackNumber = reaper.GetSelectedTrack2(0, i - 1, true)
+        trackNumber = reaper.GetSelectedTrack2(0, i - 1, setMasterTrack)
         trackHeight = reaper.GetMediaTrackInfo_Value(trackNumber, "I_TCPH")
         table.insert(trackHeightTable, trackHeight)
         table.insert(trackNumberTable, trackNumber)
