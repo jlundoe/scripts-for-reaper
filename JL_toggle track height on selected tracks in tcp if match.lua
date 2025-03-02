@@ -6,23 +6,23 @@
 -- USER CONFIG AREA -----------------------------------------------------------
 
 -- Set Track Height A in pixels(default)
-track_height_a = 116
+track_height_a = 102
 
 -- Set Track Height B in pixels
-track_height_b = 500
+track_height_b = 493
 
 ------------------------------------------------------- END OF USER CONFIG AREA
 
 function CountSelTracks()
-    trackSum = reaper.CountSelectedTracks(0)
+    TrackSum = reaper.CountSelectedTracks2(0, true)
 end
 
 function GetTrackHeight()
     trackHeightTable = {}
     trackNumberTable = {}
     
-    for i = 1, trackSum do
-        trackNumber = reaper.GetSelectedTrack(0, i - 1)
+    for i = 1, TrackSum do
+        trackNumber = reaper.GetSelectedTrack2(0, i - 1, true)
         trackHeight = reaper.GetMediaTrackInfo_Value(trackNumber, "I_TCPH")
         table.insert(trackHeightTable, trackHeight)
         table.insert(trackNumberTable, trackNumber)
@@ -45,11 +45,11 @@ end
 function SetTrackHeight()
     
     if (trackHeightMatch == true and firstTrackHeight == track_height_a) then
-        for i = 1, trackSum do
+        for i = 1, TrackSum do
             reaper.SetMediaTrackInfo_Value(trackNumberTable[i], "I_HEIGHTOVERRIDE", track_height_b)
         end
     else
-        for i = 1, trackSum do
+        for i = 1, TrackSum do
             reaper.SetMediaTrackInfo_Value(trackNumberTable[i], "I_HEIGHTOVERRIDE", track_height_a)
         end
     end
