@@ -11,8 +11,8 @@ track_height_a = 102
 -- Set Track Height B in pixels
 track_height_b = 493
 
--- If set to true script affect master track as well
-local setMasterTrack = true
+-- If set to true script affects master track as well
+local setMasterTrack = false
 
 ------------------------------------------------------- END OF USER CONFIG AREA
 
@@ -26,14 +26,17 @@ function CountVisibleTracks()
     visibleTrackTable = {}
     visibleTrackIDTable = {}
 
-    local masterTrackVisible = reaper.GetMasterTrackVisibility()
-    local masterTrackID = reaper.GetMasterTrack()
-    Print(masterTrackVisible)
-    Print(masterTrackID)
-    if (masterTrackVisible == 1) then
-        table.insert(visibleTrackTable, 0)
-        table.insert(visibleTrackIDTable, masterTrackID)
+    if (setMasterTrack == true) then
+        local masterTrackVisible = reaper.GetMasterTrackVisibility()
+        local masterTrackID = reaper.GetMasterTrack()
+        Print(masterTrackVisible)
+        Print(masterTrackID)
+        if (masterTrackVisible == 1) then
+            table.insert(visibleTrackTable, 0)
+            table.insert(visibleTrackIDTable, masterTrackID)
+        end
     end
+    
 
     for i = 1, trackSum do
         local trackID = reaper.GetTrack(0, i - 1)
