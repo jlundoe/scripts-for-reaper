@@ -24,6 +24,23 @@ reaper.ClearConsole()
 function Print(param)
   reaper.ShowConsoleMsg(tostring(param).."\n")
 end
+function PrintTable(tbl, indent)
+  if not indent then indent = 0 end
+  if type(tbl) ~= "table" then 
+      reaper.ShowConsoleMsg("Not a table\n")
+      return
+  end
+
+  -- for k, v in pairs(tbl) do
+  --     local formatting = string.rep("  ", indent) .. tostring(k) .. ": "
+  --     if type(v) == "table" then
+  --         reaper.ShowConsoleMsg(formatting .. "\n")
+  --         PrintTable(v, indent + 1) -- Recursively print nested tables
+  --     else
+  --         reaper.ShowConsoleMsg(formatting .. tostring(v) .. "\n")
+  --     end
+  -- end
+end
 
 function Main()
   TrackSum = reaper.CountSelectedTracks(0)
@@ -47,9 +64,16 @@ function Main()
   local returnvalue, trackname = setNewTrackName(minTrackNumber)
   -- if a folder track is selected
     -- put code here
-
-
-
+  if isFolderTrackSelected then
+    if returnvalue then
+      -- iterate through track array
+        -- insert folder track in folder track array
+        -- insert child tracks in child track array
+      -- iterate through child track array
+        -- getparenttrack and compare with all folder/parent tracks
+        -- if child track is linked to a selected parent track remove that child track from the global array
+    end
+  end
 
   -- if no folder track is selected
   -- insert track (if script name isn't cancelled)
@@ -77,12 +101,11 @@ function InsertTrackBelowSelTracks(lastSelTrackPos)
 end
 
 function ConfigureNewTrack(tr, trackname)
-  for i = 1, TrackSum do
-    local trackID = reaper.GetSelectedTrack(0, i - 1)
-    NewSendID = reaper.CreateTrackSend(trackID, tr)
-    reaper.SetTrackSendInfo_Value(trackID, 0, NewSendID, 'D_VOL', defsendvol)
-    reaper.SetTrackSendInfo_Value(trackID, 0, NewSendID, 'I_SENDMODE', defsendflag)
-    SetOriginTrackRecState(trackID)
+  for _, v in pairs(selectedTracksArr) do
+    NewSendID = reaper.CreateTrackSend(v, tr)
+    reaper.SetTrackSendInfo_Value(v, 0, NewSendID, 'D_VOL', defsendvol)
+    reaper.SetTrackSendInfo_Value(v, 0, NewSendID, 'I_SENDMODE', defsendflag)
+    SetOriginTrackRecState(v)
   end
 
   if NewSendID >= 0 then
