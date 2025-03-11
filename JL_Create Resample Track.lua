@@ -17,6 +17,8 @@ local defsendvol = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendv
 local defsendflag = ({reaper.BR_Win32_GetPrivateProfileString('REAPER', 'defsendflag', '0',  reaper.get_ini_file() )})[2]
 local isFolderTrackSelected = false
 local selectedTracksArr = {}
+local folderTrackArr = {}
+local childTrackArr = {}
 local maxTrackNumber = -math.huge
 local minTrackNumber = math.huge
 
@@ -30,16 +32,6 @@ function PrintTable(tbl, indent)
       reaper.ShowConsoleMsg("Not a table\n")
       return
   end
-
-  -- for k, v in pairs(tbl) do
-  --     local formatting = string.rep("  ", indent) .. tostring(k) .. ": "
-  --     if type(v) == "table" then
-  --         reaper.ShowConsoleMsg(formatting .. "\n")
-  --         PrintTable(v, indent + 1) -- Recursively print nested tables
-  --     else
-  --         reaper.ShowConsoleMsg(formatting .. tostring(v) .. "\n")
-  --     end
-  -- end
 end
 
 function Main()
@@ -66,12 +58,24 @@ function Main()
     -- put code here
   if isFolderTrackSelected then
     if returnvalue then
-      -- iterate through track array
-        -- insert folder track in folder track array
-        -- insert child tracks in child track array
-      -- iterate through child track array
-        -- getparenttrack and compare with all folder/parent tracks
+      -- sort child and folder tracks into two new arrays
+      for _, v in pairs(selectedTracksArr) do
+        if (reaper.GetMediaTrackInfo_Value(v, "I_FOLDERDEPTH") == 1) then
+          table.insert(folderTrackArr, v)
+        else
+          table.insert(childTrackArr, v)
+        end
+      end
+      for _, childtr in pairs(childTrackArr) do
+        local parentTrack = reaper.GetParentTrack(childtr)
         -- if child track is linked to a selected parent track remove that child track from the global array
+        for _, foldertr in pairs(folderTrackArr) do
+          if (parentTrack == foldertr) then
+            local trackKey = getKeyFromValue(childtr)
+            table.remove(selectedTracksArr, trackKey)
+          end
+        end
+      end
     end
   end
 
@@ -80,6 +84,14 @@ function Main()
   if returnvalue then 
     local newDestTr = InsertTrackBelowSelTracks(maxTrackNumber)
     ConfigureNewTrack(newDestTr, trackname)
+  end
+end
+
+function getKeyFromValue(value)
+  for i, v in pairs(selectedTracksArr) do
+    if (value == v) then
+      return i
+    end
   end
 end
 
