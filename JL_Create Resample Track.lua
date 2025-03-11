@@ -26,13 +26,6 @@ reaper.ClearConsole()
 function Print(param)
   reaper.ShowConsoleMsg(tostring(param).."\n")
 end
-function PrintTable(tbl, indent)
-  if not indent then indent = 0 end
-  if type(tbl) ~= "table" then 
-      reaper.ShowConsoleMsg("Not a table\n")
-      return
-  end
-end
 
 function Main()
   TrackSum = reaper.CountSelectedTracks(0)
@@ -87,6 +80,7 @@ function Main()
   end
 end
 
+-- get key from value in selected tracks array
 function getKeyFromValue(value)
   for i, v in pairs(selectedTracksArr) do
     if (value == v) then
