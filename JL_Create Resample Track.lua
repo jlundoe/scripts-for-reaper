@@ -2,6 +2,7 @@
 -- Audio input based on currently selected track(s).
 -- If you are familiar with abletons 'resampling input option' it is similar, with the main difference
 -- being that you choose the specific tracks you wish to receive audio from.
+-- If both folder track and some of its child tracks is selected the script omits the child track in those folders (to prevent duplicating sources)
 
 -- USER CONFIG AREA -----------------------------------------------------------
 
@@ -21,11 +22,6 @@ local folderTrackArr = {}
 local childTrackArr = {}
 local maxTrackNumber = -math.huge
 local minTrackNumber = math.huge
-
-reaper.ClearConsole()
-function Print(param)
-  reaper.ShowConsoleMsg(tostring(param).."\n")
-end
 
 function Main()
   TrackSum = reaper.CountSelectedTracks(0)
