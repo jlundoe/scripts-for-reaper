@@ -60,10 +60,10 @@ function Main()
         local lastChildTrack = getLastChildTrackInFolder(lastParentTrack)
         -- get that child tracks track number
         -- replace that track number in maxTrackNumber variable
+        maxTrackNumber = reaper.GetMediaTrackInfo_Value(lastChildTrack, "IP_TRACKNUMBER")
       end
     end
     -- if a folder track is selected
-    -- put code here
     if isFolderTrackSelected then
       -- sort child and folder tracks into two new arrays
       for _, v in pairs(selectedTracksArr) do
