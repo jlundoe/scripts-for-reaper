@@ -45,12 +45,26 @@ function Main()
     minTrackNumber = math.min(minTrackNumber, trPosNumber)
     maxTrackNumber = math.max(maxTrackNumber, trPosNumber)
   end
-
+  
   local returnvalue, trackname = setNewTrackName(minTrackNumber)
-  -- if a folder track is selected
+  -- insert track (if script name isn't cancelled)
+  if returnvalue then 
+    -- if the last track is a child track within a selected folder track
+    -- iterate through selectedtracksarr
+    for _, v in pairs(selectedTracksArr) do
+      -- check for maxTrackNumber match with getmediatrack number
+      if (reaper.GetMediaTrackInfo_Value(v, "IP_TRACKNUMBER") == maxTrackNumber) then
+        -- when match, check if current track has parent in selected array
+        local lastParentTrack = reaper.GetParentTrack(v)
+        -- if parent exist, find last child track of that parent
+        local lastChildTrack = getLastChildTrackInFolder(lastParentTrack)
+        -- get that child tracks track number
+        -- replace that track number in maxTrackNumber variable
+      end
+    end
+    -- if a folder track is selected
     -- put code here
-  if isFolderTrackSelected then
-    if returnvalue then
+    if isFolderTrackSelected then
       -- sort child and folder tracks into two new arrays
       for _, v in pairs(selectedTracksArr) do
         if (reaper.GetMediaTrackInfo_Value(v, "I_FOLDERDEPTH") == 1) then
@@ -70,13 +84,34 @@ function Main()
         end
       end
     end
-  end
 
-  -- if no folder track is selected
-  -- insert track (if script name isn't cancelled)
-  if returnvalue then 
     local newDestTr = InsertTrackBelowSelTracks(maxTrackNumber)
     ConfigureNewTrack(newDestTr, trackname)
+  end
+
+  
+end
+
+function getLastChildTrackInFolder (tr)
+  -- count all tracks in project and put in variable
+  local projectTrackSum = reaper.CountTracks(0)
+  -- change to zero-based index
+  projectTrackSum = projectTrackSum - 1
+  -- get parent track number
+  local folderTrackNumber = reaper.GetMediaTrackInfo_Value(tr, "IP_TRACKNUMBER")
+  -- change to zero based index
+  local folderTrackIndex = folderTrackNumber - 1
+  -- subtract current parent track number from project track sum variable
+  local trSum = projectTrackSum - folderTrackIndex
+
+  -- loop through tracks from current track number
+  for i = folderTrackIndex, trSum + folderTrackIndex do
+    local tr = reaper.GetTrack(0, i)
+    -- check for last track in folder and if match return track
+    if (reaper.GetMediaTrackInfo_Value(tr, "I_FOLDERDEPTH") == -1) then
+      local lastTrackInFolder = tr
+      return lastTrackInFolder
+    end
   end
 end
 
