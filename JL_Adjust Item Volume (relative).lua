@@ -1,3 +1,6 @@
+-- Adjust volume of currently hovered Item. It needs to be an endless encoder set to relative mode,
+-- that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
+
 -- USER CONFIG AREA -----------------------------------------------------------
 
 -- set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
