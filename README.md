@@ -8,6 +8,7 @@ Simple custom Lua-scripts for Reaper which is made based on my own workflow need
 - [JL_toggle activate monitor FX](#jl_toggle-activate-monitor-fx)
 - [JL_toggle mute on items if same else mute](#jl_toggle-mute-on-items-if-same-else-mute)
 - [JL_toggle selected tracks between trimread and latch](#jl_toggle-selected-tracks-between-trimread-and-latch)
+- [JL_Adjust Item Volume (relative)](#jl_adjust-item-volume-relative)
 - [Set custom height actions - envelopes and tracks](#set-custom-height-actions---envelopes-and-tracks)
     - [JL_read envelope height in pixels(utility)](#jl_read-envelope-height-in-pixelsutility)
     - [JL_read track height in pixels(utility)](#jl_read-track-height-in-pixelsutility)
@@ -83,6 +84,14 @@ If the selected media items are both muted and unmuted (they differ), then mute 
 
 ## JL_toggle selected tracks between trimread and latch
 Toggles between trim/read and latch on selected tracks automation mode. If latch mode is not selected it sets the individual selected tracks to latch mode. If latch mode is selected it sets the individual selected tracks to trim/read mode.<br>
+<br>
+<br>
+
+## JL_Adjust Item Volume (relative)
+Adjust volume of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
+<br>
+###### User Config<br>
+-- Int. Set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
 <br>
 <br>
 
