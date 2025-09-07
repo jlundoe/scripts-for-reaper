@@ -1,4 +1,9 @@
-DBincr = 1
+-- USER CONFIG AREA -----------------------------------------------------------
+
+-- set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
+DBincr = 0.1
+
+------------------------------------------------------- END OF USER CONFIG AREA
 
 -- convert from db
 function setNewVolValue(currentItemVol, dBincr, isPositive)
@@ -35,7 +40,6 @@ function main()
             if sourceType ~= "MIDI" then
                 -- check midi cc (up or down indication) and adjust volume accordingly
                 local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
-                reaper.ShowConsoleMsg(tostring(val))
                 if val == 63 then
                     -- calculate new volume
                     local newItemVol = setNewVolValue(itemVol, DBincr, false)
@@ -50,7 +54,7 @@ function main()
                     reaper.ShowConsoleMsg("do nothing")
                 end
             else
-                reaper.ShowConsoleMsg("ignoring midi item")
+                -- reaper.ShowConsoleMsg("ignoring midi item")
             end
         end
     end
