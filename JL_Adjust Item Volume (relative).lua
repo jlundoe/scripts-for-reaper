@@ -1,4 +1,3 @@
-MidiCCplaceholder = 65
 DBincr = 1
 
 -- convert from db
@@ -35,12 +34,14 @@ function main()
             -- check if audio item
             if sourceType ~= "MIDI" then
                 -- check midi cc (up or down indication) and adjust volume accordingly
-                if MidiCCplaceholder == 63 then
+                local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
+                reaper.ShowConsoleMsg(tostring(val))
+                if val == 63 then
                     -- calculate new volume
                     local newItemVol = setNewVolValue(itemVol, DBincr, false)
                     -- set new volume
                     reaper.SetMediaItemInfo_Value(item, "D_VOL", newItemVol)
-                elseif MidiCCplaceholder == 65 then
+                elseif val == 65 then
                     -- calculate new volume
                     local newItemVol = setNewVolValue(itemVol, DBincr, true)
                     -- set new volume
