@@ -1,7 +1,7 @@
 -- USER CONFIG AREA -----------------------------------------------------------
 
 -- set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
-DBincr = 0.1
+local dbIncrement = 0.1
 
 ------------------------------------------------------- END OF USER CONFIG AREA
 
@@ -42,12 +42,12 @@ function main()
                 local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
                 if val == 63 then
                     -- calculate new volume
-                    local newItemVol = setNewVolValue(itemVol, DBincr, false)
+                    local newItemVol = setNewVolValue(itemVol, dbIncrement, false)
                     -- set new volume
                     reaper.SetMediaItemInfo_Value(item, "D_VOL", newItemVol)
                 elseif val == 65 then
                     -- calculate new volume
-                    local newItemVol = setNewVolValue(itemVol, DBincr, true)
+                    local newItemVol = setNewVolValue(itemVol, dbIncrement, true)
                     -- set new volume
                     reaper.SetMediaItemInfo_Value(item, "D_VOL", newItemVol)
                 else
