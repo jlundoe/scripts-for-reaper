@@ -40,12 +40,12 @@ function main()
             if sourceType ~= "MIDI" then
                 -- check midi cc (up or down indication) and adjust volume accordingly
                 local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
-                if val == 63 then
+                if val <= 63 then
                     -- calculate new volume
                     local newItemVol = setNewVolValue(itemVol, dbIncrement, false)
                     -- set new volume
                     reaper.SetMediaItemInfo_Value(item, "D_VOL", newItemVol)
-                elseif val == 65 then
+                elseif val >= 65 then
                     -- calculate new volume
                     local newItemVol = setNewVolValue(itemVol, dbIncrement, true)
                     -- set new volume
