@@ -92,7 +92,7 @@ Toggles between trim/read and latch on selected tracks automation mode. If latch
 Adjust volume of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
 <br>
 ###### User Config<br>
--- Int. Set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
+-- Float. Set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
 <br>
 <br>
 
@@ -101,7 +101,7 @@ Adjust playrate of currently hovered Item. It needs to be an endless encoder set
 that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
 <br>
 ###### User Config<br>
--- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
+-- Float. Set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
 <br>
 <br>
 
