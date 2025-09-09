@@ -24,6 +24,7 @@ function setNewRateValue(currentRateAmount, rateIncr, isPositive)
 end
 
 function main()
+    activateUndoBlock()
     -- capture mouse cursor context
     reaper.BR_GetMouseCursorContext()
     -- get current item which cursor is hovering over
@@ -65,8 +66,8 @@ function main()
 end
 
 function activateDeferLoop()
-        -- check if script is already running
-    local isRunning = (reaper.GetExtState("playrateScript", "isrunningBool") == "1")
+    -- check if script is already running
+    local isRunning = (reaper.GetExtState("playrateScript", "isRunningBool") == "1")
     if isRunning then
         return
     end
@@ -75,6 +76,16 @@ function activateDeferLoop()
     -- set deferloop as running
     reaper.SetExtState("playrateScript", "isRunningBool", "1", false)
     reaper.Main_OnCommand(deferLoopCmdID, 0)
+end
+
+function activateUndoBlock()
+    local undoRunning = (reaper.GetExtState("playrateScript", "undoRunning") == "1")
+    if undoRunning then
+        return
+    end
+    reaper.ShowConsoleMsg("undo block started")
+    reaper.Undo_BeginBlock2(0)
+    reaper.SetExtState("playrateScript", "undoRunning", "1", false)
 end
 
 main()

@@ -9,16 +9,19 @@ function deferloop()
     -- schedule new iteration if timeDifference is less defined time interval
     if timeDifference <= 1 then
         reaper.defer(deferloop)
-        reaper.ShowConsoleMsg("listener running")
+        -- reaper.ShowConsoleMsg("listener running")
     else
-        reaper.ShowConsoleMsg("listener finished")
+        -- reaper.ShowConsoleMsg("listener finished")
     end
-    reaper.ShowConsoleMsg("\n"..tostring(timeDifference))
+    -- reaper.ShowConsoleMsg("\n"..tostring(timeDifference))
 end
 
 function exit()
     -- set isRunning flag back to false
     reaper.SetExtState("playrateScript", "isRunningBool", "0", false)
+    reaper.Undo_EndBlock2(0,"Adjust Item Playrate (relative)", -1)
+    reaper.SetExtState("playrateScript", "undoRunning", "0", false)
+    reaper.ShowConsoleMsg("at exit FIIIIRED")
 end
 
 reaper.defer(deferloop)
