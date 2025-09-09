@@ -5,6 +5,7 @@
 
 -- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
 local rateIncrement = 0.025
+local deferLoopActionId = "_RSfcf5445c23df5bcdf72201db4838a13024834e04"
 
 ------------------------------------------------------- END OF USER CONFIG AREA
 
@@ -25,6 +26,10 @@ function main()
     reaper.BR_GetMouseCursorContext()
     -- get current item which cursor is hovering over
     local item = reaper.BR_GetMouseCursorContext_Item()
+    -- get precise time of when action is triggered
+    local lastActivity = reaper.time_precise()
+    reaper.SetExtState("playrateScript", "lastActivityTime", tostring(lastActivity), false)
+
     if item then
         -- check item type
         if item ~= nil then
@@ -45,6 +50,7 @@ function main()
                         local goUp = delta > 0
                         local newItemRate = setNewRateValue(takePlayrate, rateStepValue, goUp)
                         reaper.SetMediaItemTakeInfo_Value(activeTake, "D_PLAYRATE", newItemRate)
+                        reaper.UpdateItemInProject(item)
                     else
                         -- reaper.ShowConsoleMsg("no up or down value registered")
                     end
@@ -56,4 +62,16 @@ function main()
     end
 end
 
+function activateDeferLoop()
+        -- check if script is already running
+    local isRunning = (reaper.GetExtState("playrateScript", "isrunningBool") == "1")
+    if isRunning then
+        return
+    end
+    -- get correct numeric command ID
+    local deferLoopCmdID = reaper.NamedCommandLookup(tostring(deferLoopActionId))
+    reaper.Main_OnCommand(deferLoopCmdID, 0)
+end
+
 main()
+activateDeferLoop()
