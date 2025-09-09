@@ -13,7 +13,7 @@ function deferloop()
     else
         reaper.ShowConsoleMsg("listener finished")
     end
-    -- reaper.ShowConsoleMsg("\n"..tostring(timeDifference))
+    reaper.ShowConsoleMsg("\n"..tostring(timeDifference))
 end
 
 function exit()

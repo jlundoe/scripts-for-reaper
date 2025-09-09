@@ -5,6 +5,8 @@
 
 -- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
 local rateIncrement = 0.025
+
+-- paste in the deferloop scripts action ID (this is individual to all Reaper installs, so it needs to be done manually). Be sure to remember the quotes "" around the ID.
 local deferLoopActionId = "_RSfcf5445c23df5bcdf72201db4838a13024834e04"
 
 ------------------------------------------------------- END OF USER CONFIG AREA
@@ -70,6 +72,8 @@ function activateDeferLoop()
     end
     -- get correct numeric command ID
     local deferLoopCmdID = reaper.NamedCommandLookup(tostring(deferLoopActionId))
+    -- set deferloop as running
+    reaper.SetExtState("playrateScript", "isRunningBool", "1", false)
     reaper.Main_OnCommand(deferLoopCmdID, 0)
 end
 
