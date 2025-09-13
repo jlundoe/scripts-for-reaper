@@ -1,5 +1,6 @@
 local reaper = reaper
 local rateIncrement = tonumber(reaper.GetExtState("playrateScript", "rateIncrement"))
+local undoTimeThreshold = tonumber(reaper.GetExtState("playrateScript", "undoTimeThreshold"))
 
 function setNewRateValue(currentRateAmount, rateIncr, isPositive)
     local itemRate = currentRateAmount
@@ -67,7 +68,7 @@ function deferloop()
     local scheduledTime = reaper.time_precise()
     local timeDifference = scheduledTime - lastActivityTime
     -- schedule new iteration if timeDifference is less defined time interval
-    if timeDifference <= 1 then
+    if timeDifference <= undoTimeThreshold then
         main()
         reaper.defer(deferloop)
     else

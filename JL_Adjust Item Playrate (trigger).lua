@@ -9,11 +9,16 @@ local rateIncrement = 0.05
 -- paste in the deferloop scripts action ID (this is individual to all Reaper installs, so it needs to be done manually). Be sure to remember the quotes "" around the ID.
 local deferLoopActionId = "_RSfcf5445c23df5bcdf72201db4838a13024834e04"
 
+-- adjust time interval threshold between ticks in ms, which defines when the undo point is created (a low value might create several undo points during the same knob motion)
+-- I recommend not to edit this value
+local undoTimeThreshold = 0.25
+
 ------------------------------------------------------- END OF USER CONFIG AREA
 local reaper = reaper
 
 function setConfigValues()
     reaper.SetExtState("playrateScript", "rateIncrement", tostring(rateIncrement), false)
+    reaper.SetExtState("playrateScript", "undoTimeThreshold", tostring(undoTimeThreshold), false)
 end
 
 function activateDeferLoop()
