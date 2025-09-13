@@ -4,89 +4,48 @@
 -- USER CONFIG AREA -----------------------------------------------------------
 
 -- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
-local rateIncrement = 0.025
+local rateIncrement = 0.05
 
 -- paste in the deferloop scripts action ID (this is individual to all Reaper installs, so it needs to be done manually). Be sure to remember the quotes "" around the ID.
 local deferLoopActionId = "_RSfcf5445c23df5bcdf72201db4838a13024834e04"
 
 ------------------------------------------------------- END OF USER CONFIG AREA
+local reaper = reaper
 
--- set new value based on former playrate value
-function setNewRateValue(currentRateAmount, rateIncr, isPositive)
-    local itemRate = currentRateAmount
-    if isPositive then
-        itemRate = itemRate + rateIncr
-    else
-        itemRate = itemRate - rateIncr
-    end
-    local newRateValue = itemRate
-    return newRateValue
-end
-
-function main()
-    activateUndoBlock()
-    -- capture mouse cursor context
-    reaper.BR_GetMouseCursorContext()
-    -- get current item which cursor is hovering over
-    local item = reaper.BR_GetMouseCursorContext_Item()
-    -- get precise time of when action is triggered
-    local lastActivity = reaper.time_precise()
-    reaper.SetExtState("playrateScript", "lastActivityTime", tostring(lastActivity), false)
-
-    if item then
-        -- check item type
-        if item ~= nil then
-            local activeTake = reaper.GetActiveTake(item)
-            if activeTake ~= nil then
-                local itemSource = reaper.GetMediaItemTake_Source(activeTake)
-                local sourceType = reaper.GetMediaSourceType(itemSource)
-                -- check if audio item
-                if sourceType ~= "MIDI" then
-                    -- get playrate of hovered active take
-                    local takePlayrate = reaper.GetMediaItemTakeInfo_Value(activeTake, "D_PLAYRATE")
-                    -- check midi cc (up or down indication) and adjust playrate accordingly
-                    local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
-                    local delta = val - 64
-                    if delta ~= 0 then
-                        local absoluteValue = math.abs(delta)
-                        local rateStepValue = rateIncrement * absoluteValue
-                        local goUp = delta > 0
-                        local newItemRate = setNewRateValue(takePlayrate, rateStepValue, goUp)
-                        reaper.SetMediaItemTakeInfo_Value(activeTake, "D_PLAYRATE", newItemRate)
-                        reaper.UpdateItemInProject(item)
-                    else
-                        -- reaper.ShowConsoleMsg("no up or down value registered")
-                    end
-                else
-                    -- reaper.ShowConsoleMsg("ignoring midi item")
-                end
-            end
-        end
-    end
+function setConfigValues()
+    reaper.SetExtState("playrateScript", "rateIncrement", tostring(rateIncrement), false)
 end
 
 function activateDeferLoop()
-    -- check if script is already running
-    local isRunning = (reaper.GetExtState("playrateScript", "isRunningBool") == "1")
-    if isRunning then
-        return
-    end
     -- get correct numeric command ID
     local deferLoopCmdID = reaper.NamedCommandLookup(tostring(deferLoopActionId))
-    -- set deferloop as running
-    reaper.SetExtState("playrateScript", "isRunningBool", "1", false)
     reaper.Main_OnCommand(deferLoopCmdID, 0)
 end
 
-function activateUndoBlock()
-    local undoRunning = (reaper.GetExtState("playrateScript", "undoRunning") == "1")
-    if undoRunning then
-        return
-    end
-    reaper.ShowConsoleMsg("undo block started")
-    reaper.Undo_BeginBlock2(0)
-    reaper.SetExtState("playrateScript", "undoRunning", "1", false)
+function trigger()
+    -- accumulator
+
+    -- check midi cc (up or down indication + acceleration)
+    local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
+    -- set midi ccValue extstate variable
+    reaper.SetExtState("playrateScript", "ccValueBuffer", tostring(val), false)
+    -- feed extstate variable to listener script
+    reaper.SetExtState("playrateScript", "tickBuffer", "1", false)
+
+    -- get precise time of when action is triggered
+    local lastActivity = reaper.time_precise()
+    reaper.SetExtState("playrateScript", "lastActivityTime", tostring(lastActivity), false)
 end
 
-main()
-activateDeferLoop()
+local isStarting = reaper.GetExtState("playrateScript", "isStarting")
+local isRunning = reaper.GetExtState("playrateScript", "isRunningBool")
+
+-- reaper.Undo_BeginBlock()
+if isStarting ~= "1" and isRunning ~= "1" then
+    reaper.SetExtState("playrateScript", "isStarting", "1", false)
+    setConfigValues()
+    activateDeferLoop()
+end
+trigger()
+-- reaper.Undo_EndBlock("Adjust Item Playrate", -1)
+reaper.defer(function() end)
