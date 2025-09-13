@@ -41,7 +41,7 @@ function adjustValue()
                         local goUp = delta > 0
                         local newItemRate = setNewRateValue(takePlayrate, rateStepValue, goUp)
                         -- accumulate value
-                        rateAccumulated = newItemRate
+                        -- rateAccumulated = newItemRate
                         reaper.SetMediaItemTakeInfo_Value(activeTake, "D_PLAYRATE", newItemRate)
                         reaper.UpdateItemInProject(item)
                     else
@@ -86,6 +86,7 @@ end
 function exit()
     -- set isRunning flag back to false
     reaper.SetExtState("playrateScript", "isRunningBool", "0", false)
+    -- make an empty undo block to wrap all ticks together in one undo point 
     reaper.Undo_BeginBlock()
     reaper.Undo_EndBlock("Playrate check test test", -1)
 end

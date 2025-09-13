@@ -28,8 +28,6 @@ function activateDeferLoop()
 end
 
 function trigger()
-    -- accumulator
-
     -- check midi cc (up or down indication + acceleration)
     local is_new_value,filename,sectionID,cmdID,mode,resolution,val,contextstr = reaper.get_action_context()
     -- set midi ccValue extstate variable
@@ -45,12 +43,11 @@ end
 local isStarting = reaper.GetExtState("playrateScript", "isStarting")
 local isRunning = reaper.GetExtState("playrateScript", "isRunningBool")
 
--- reaper.Undo_BeginBlock()
 if isStarting ~= "1" and isRunning ~= "1" then
     reaper.SetExtState("playrateScript", "isStarting", "1", false)
     setConfigValues()
     activateDeferLoop()
 end
 trigger()
--- reaper.Undo_EndBlock("Adjust Item Playrate", -1)
+
 reaper.defer(function() end)
