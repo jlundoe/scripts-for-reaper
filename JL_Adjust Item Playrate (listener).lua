@@ -88,7 +88,7 @@ function exit()
     reaper.SetExtState("playrateScript", "isRunningBool", "0", false)
     -- make an empty undo block to wrap all ticks together in one undo point 
     reaper.Undo_BeginBlock()
-    reaper.Undo_EndBlock("Playrate check test test", -1)
+    reaper.Undo_EndBlock("Adjust Item Playrate", -1)
 end
 
 reaper.defer(deferloop)
