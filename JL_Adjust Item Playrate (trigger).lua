@@ -1,12 +1,14 @@
 -- Adjust playrate of currently hovered Item. It needs to be an endless encoder set to relative mode,
 -- that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
+-- NB.... -> This script works only together with the "Adjust Item Playrate (listener) script" -> paste in the command ID (of
+-- the listener script) in the config area below.
 
 -- USER CONFIG AREA -----------------------------------------------------------
 
 -- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
 local rateIncrement = 0.05
 
--- paste in the deferloop scripts action ID (this is individual to all Reaper installs, so it needs to be done manually). Be sure to remember the quotes "" around the ID.
+-- paste in the action ID from "Adjust Item Playrate (listener)". This is individual to all Reaper installs, so it needs to be done manually. Be sure to remember the quotes "" around the ID.
 local deferLoopActionId = "_RSfcf5445c23df5bcdf72201db4838a13024834e04"
 
 -- adjust time interval threshold between ticks in ms, which defines when the undo point is created (a low value might create several undo points during the same knob motion)

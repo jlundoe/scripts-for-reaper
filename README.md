@@ -8,8 +8,9 @@ Simple custom Lua-scripts for Reaper which is made based on my own workflow need
 - [JL_toggle activate monitor FX](#jl_toggle-activate-monitor-fx)
 - [JL_toggle mute on items if same else mute](#jl_toggle-mute-on-items-if-same-else-mute)
 - [JL_toggle selected tracks between trimread and latch](#jl_toggle-selected-tracks-between-trimread-and-latch)
-- [JL_Adjust Item Volume (relative)](#jl_adjust-item-volume-relative)
-- [JL_Adjust Item Playrate (relative)](#jl_adjust-item-playrate-relative)
+- [JL_Adjust Item Volume (trigger)](#jl_adjust-item-volume-trigger)
+- [JL_Adjust Item Volume (listener)](#jl_adjust-item-volume-listener)
+- [JL_Adjust Item Playrate (trigger)](#jl_adjust-item-playrate-listener)
 - [Set custom height actions - envelopes and tracks](#set-custom-height-actions---envelopes-and-tracks)
     - [JL_read envelope height in pixels(utility)](#jl_read-envelope-height-in-pixelsutility)
     - [JL_read track height in pixels(utility)](#jl_read-track-height-in-pixelsutility)
@@ -88,22 +89,39 @@ Toggles between trim/read and latch on selected tracks automation mode. If latch
 <br>
 <br>
 
-## JL_Adjust Item Volume (relative)
-Adjust volume of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
+## JL_Adjust Item Volume (trigger)
+Adjust volume of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values. NB! This script works only together with the "Adjust Item Volume (listener) script".
+-- the listener script) in the config area below.
 <br>
 ###### User Config<br>
--- Float. Set the volume increment in dB (the value will either be added or subtracted depending on knob "scroll" direction)
+-- set the volume increment in Db (the value will either be added or subtracted depending on knob "scroll" direction). Decimals allowed.
+local volIncrement = 1
+
+-- paste in the deferloop scripts action ID (this is individual to all Reaper installs, so it needs to be done manually).
+
+-- adjust time interval threshold between ticks in ms, which defines when the undo point is created (a low value might create several undo points during the same knob motion)
+
 <br>
 <br>
 
-## JL_Adjust Item Playrate (relative)
-Adjust playrate of currently hovered Item. It needs to be an endless encoder set to relative mode,
-that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
+## JL_Adjust Item Volume (listener)
+The listener script connected to "Adjust Item Volume (trigger).
+
+## JL_Adjust Item Playrate (trigger)
+Adjust playrate of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values. NB! This script works only together with the "Adjust Item Playrate (listener) script".
 <br>
 ###### User Config<br>
--- Float. Set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
+-- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
+
+-- paste in the action ID from "Adjust Item Playrate (listener)". This is individual to all Reaper installs, so it needs to be done manually.
+
+-- adjust time interval threshold between ticks in ms, which defines when the undo point is created (a low value might create several undo points during the same knob motion)
+
 <br>
 <br>
+
+## JL_Adjust Item Playrate (listener)
+The listener script connected to "Adjust Item Playrate (trigger).
 
 ## Set custom height actions - envelopes and tracks
 ![custom height actions gif](/gifs/JL_Set%20custom%20height%20actions%20-%20envelopes%20and%20tracks.gif)

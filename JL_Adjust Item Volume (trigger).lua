@@ -1,5 +1,7 @@
 -- Adjust item volume of currently hovered Item. It needs to be an endless encoder set to relative mode,
 -- that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
+-- NB.... -> This script works only together with the "Adjust Item Volume (listener) script" -> paste in the command ID (of
+-- the listener script) in the config area below.
 
 -- USER CONFIG AREA -----------------------------------------------------------
 
