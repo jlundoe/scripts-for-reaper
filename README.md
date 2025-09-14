@@ -101,11 +101,11 @@ local volIncrement = 1
 
 -- adjust time interval threshold between ticks in ms, which defines when the undo point is created (a low value might create several undo points during the same knob motion)
 
-<br>
-<br>
-
 ## JL_Adjust Item Volume (listener)
 The listener script connected to "Adjust Item Volume (trigger).
+
+<br>
+<br>
 
 ## JL_Adjust Item Playrate (trigger)
 Adjust playrate of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values. NB! This script works only together with the "Adjust Item Playrate (listener) script".
@@ -117,11 +117,11 @@ Adjust playrate of currently hovered Item. It needs to be an endless encoder set
 
 -- adjust time interval threshold between ticks in ms, which defines when the undo point is created (a low value might create several undo points during the same knob motion)
 
-<br>
-<br>
-
 ## JL_Adjust Item Playrate (listener)
 The listener script connected to "Adjust Item Playrate (trigger).
+
+<br>
+<br>
 
 ## Set custom height actions - envelopes and tracks
 ![custom height actions gif](/gifs/JL_Set%20custom%20height%20actions%20-%20envelopes%20and%20tracks.gif)
