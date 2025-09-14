@@ -1,9 +1,9 @@
--- Adjust playrate of currently hovered Item. It needs to be an endless encoder set to relative mode,
+-- Adjust item volume of currently hovered Item. It needs to be an endless encoder set to relative mode,
 -- that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values.
 
 -- USER CONFIG AREA -----------------------------------------------------------
 
--- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
+-- set the volume increment in Db (the value will either be added or subtracted depending on knob "scroll" direction). Decimals allowed.
 local volIncrement = 1
 
 -- paste in the deferloop scripts action ID (this is individual to all Reaper installs, so it needs to be done manually). Be sure to remember the quotes "" around the ID.
