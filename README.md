@@ -91,7 +91,8 @@ Toggles between trim/read and latch on selected tracks automation mode. If latch
 
 ## JL_Adjust Item Volume (trigger)
 Adjust volume of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values. NB! This script works only together with the "Adjust Item Volume (listener) script".
--- the listener script) in the config area below.
+<br>
+![adjust item volume gif](/gifs/JL_Adjust%20Item%20Volume.gif)
 <br>
 ###### User Config<br>
 -- set the volume increment in Db (the value will either be added or subtracted depending on knob "scroll" direction). Decimals allowed.
@@ -109,6 +110,8 @@ The listener script connected to "Adjust Item Volume (trigger).
 
 ## JL_Adjust Item Playrate (trigger)
 Adjust playrate of currently hovered Item. It needs to be an endless encoder set to relative mode, that outputs cc value <= 63 for decreasing values, and cc value >= 65 for increasing values. NB! This script works only together with the "Adjust Item Playrate (listener) script".
+<br>
+![adjust item playrate gif](/gifs/JL_Adjust%20Item%20Playrate.gif)
 <br>
 ###### User Config<br>
 -- set the rate increment as float (the value will either be added or subtracted depending on knob "scroll" direction)
